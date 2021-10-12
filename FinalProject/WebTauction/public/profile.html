@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TAUCTION</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<link rel="stylesheet" href="style.css">
+	<link rel="shortcut icon" href="img/mini_logo.png" />
+</head>
+<body>
+	<div class="header">
+		<div class="container">
+			<div class="row">
+				<div class="col-8 menu01">
+					<a href="index.html"><img src="img/logo.png" class="logo"></a>
+					<a href="index.html">Trouble</a>
+					<a href="index.html">Technicians</a>
+					<a href="history.html">History</a>
+					<a href="about.html">About us</a>
+				</div>
+				<div class="col-4 menu02">
+					<div id="nosign">
+						<a href="register.html">Register</a>
+						<div class="vl"></div>
+						<a href="login.html">Log in</a>
+					</div>
+					<div id="insign">
+						<div class="row"><a href="profile.html" id="headeruser"></a></div>
+						<div class="row"><button onclick="sign()" class="whitebut">Log out</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="hidhead"></div>
+	<div class="openbtn" onclick="openNav()" id="openNav">☰</div>
+
+	<div class="sidebar" id="mySidebar">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+		<a href="index.html" id="m1">Home</a>
+		<div id="hidsign"></div>
+		<a href="history.html" id="m2">History</a>
+		<a href="about.html" id="m3">About us</a>
+	</div>
+	<div id="sign" style="display: none;"></div>
+	<div id="buyc" style="display: none;"></div>
+	<div id="sellc" style="display: none;"></div>
+	<div id="hisor" style="display: none;"></div>
+
+	<div class="body01">
+		<div class="container">
+            <a href="editpro.html"><button class="btn btn-secondary">Edit</button></a>
+			<h2 style="text-align: center;">Profile</h2>
+			<img src="img/person.png" class="mid profile">
+			<h4 style="text-align: center;" id="headeruser">User Email</h4>
+			<div class="row" style="padding: 10px 10px;">
+                <div class="col-lg-5 col-12" style="text-align: center;border: 1px black solid;">
+					<h3 style="background-color: #2089CF;color: white;padding-top: 20px;padding-bottom: 30px;border: 1px black solid;">About Me</h3>
+					<div id="add"></div>
+				</div>
+				<div class="col-lg-4 col-12" style="text-align: center;border: 1px black solid;">
+					<h3 style="background-color: #2089CF;color: white;padding-top: 20px;padding-bottom: 30px;border: 1px black solid;">Address</h3>
+					<div id="add"></div>
+				</div>
+				<div class="col-lg-3 col-12" style="text-align: center;border: 1px black solid;">
+					<h3 style="background-color: #2089CF;color: white;padding-top: 20px;padding-bottom: 30px;border: 1px black solid;">Contact</h3>
+					<div id="con"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-3">
+					<a href="index.html"><img src="img/logo.png" class="logo"></a>
+				</div>
+				<div class="col-6 fmenu">
+						<a href="index.html">Home</a>
+						<a href="history.html" style="margin-left: 9vw;margin-right: 9vw">History</a>
+						<a href="about.html">About us</a>
+				</div>
+				<div class="col-3 fmenu" style="padding-left: 6vw">
+					<p>ที่อยู่ของเรา</p>
+					<p>325/2  หมู่ 5 ถ.เมรี  ซ.เมรี 12 ต. บ้านสวน อ. เมือง  จ. ชลบุรี 20000 </p>
+				</div>
+			</div>
+			<p style="text-align: center;color: white;">@Copy right KMITL</p>
+		</div>
+	</div>
+	<div id="hidfoot">@Copy right KMITL</div>
+</body>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-storage.js"></script>
+    <script>
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+        apiKey: "AIzaSyC3Jv5CRjhZ0-hKDfY9FRU4EmIYWfvDaN0",
+        authDomain: "tauction-web.firebaseapp.com",
+        projectId: "tauction-web",
+        storageBucket: "tauction-web.appspot.com",
+        messagingSenderId: "770248665581",
+        appId: "1:770248665581:web:252160e779378e15289fe4",
+        measurementId: "G-EXR9WX4M5S",
+        };
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+	<script src="java.js"></script>
+</html>
