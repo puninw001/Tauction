@@ -49,24 +49,35 @@
 		<a href="history.html" id="m2">History</a>
 		<a href="about.html" id="m3">About us</a>
 	</div>
+	
 	<div id="sign" style="display: none;"></div>
 	<div id="troub" style="display: none;"></div>
 	<div id="techs" style="display: none;"></div>
 	<div id="add" style="display: none;"></div>
 	<div id="con" style="display: none;"></div>
 	<div id="hisor" style="display: none;"></div>
-	<div id="editpro" style="display: none;"></div>
+	<div id="upload" style="display: none;"></div>
 	<div id="abtme" style="display: none;"></div>
 	<div id="ipf" style="display: none;"></div>
+    <div id="select" style="display: none;"></div>
+    <div id="editpro" style="display: none;"></div>
 
 	<div class="body01">
 		<div class="container" style="border: 1px black solid;padding: 0;">
 			<div style="background-color: #2089CF;padding: 10px 0px;">
-				<h2 style="text-align: center;color: white;">Create Post</h2>
+				<h2 style="text-align: center;color: white;">Upgrade Profile</h2>
 			</div>
 			<div class="row" style="padding: 0px 5vw;padding-top: 40px;">
 				<div class="col-12 col-lg-3">
-					<p>Type:  <select id="type" style="width: 200px;">
+					<p>Firstname: <input type="text" id="sname" placeholder="Firstname" style="width: 200px;"></p>
+				</div>
+				<div class="col-12 col-lg-3">
+					<p>Lastname: <input type="text" id="lname" placeholder="Lastname" style="width: 200px;"></p>
+				</div>
+			</div>
+            <div class="row" style="padding: 0px 5vw;padding-top: 40px;">
+				<div class="col-12 col-lg-3">
+					<p>Type1:  <select id="type1" style="width: 200px;">
 						<option value="air condition">air condition</option>
 					  	<option value="refrigerator">refrigerator</option>
 						<option value="pipe">pipe</option>
@@ -75,7 +86,27 @@
 					</select></p>
 				</div>
 				<div class="col-12 col-lg-3">
-					<p>Province:  <select id="province" style="width: 200px;">
+					<p>Type2:  <select id="type2" style="width: 200px;">
+						<option value="air condition">air condition</option>
+					  	<option value="refrigerator">refrigerator</option>
+						<option value="pipe">pipe</option>
+					  	<option value="shower">shower</option>
+						<option value="other">other</option>
+					</select></p>
+				</div>
+                <div class="col-12 col-lg-3">
+					<p>Type3:  <select id="type3" style="width: 200px;">
+						<option value="air condition">air condition</option>
+					  	<option value="refrigerator">refrigerator</option>
+						<option value="pipe">pipe</option>
+					  	<option value="shower">shower</option>
+						<option value="other">other</option>
+					</select></p>
+				</div>
+			</div>
+			<div class="row" style="padding: 40px 5vw;">
+				<div class="col-12">
+					<p>จังหวัด:  <select id="province1" style="width: 200px;">
 						<option value="Bangkok">Bangkok</option>
 					  	<option value="Krabi">Krabi</option>
 						<option value="Kanchanaburi">Kanchanaburi</option>
@@ -155,33 +186,17 @@
 					  	<option value="Ubon Ratchathani">Ubon Ratchathani</option>
 					</select></p>
 				</div>
-				<div class="col-12 col-lg-3">
-					<p>Phone: <input type="text" id="phone" placeholder="(+66)" style="width: 200px;"></p>
-				</div>
-				<div class="col-12 col-lg-3">
-					<img id="myimg" class="orderimg"/> <label id = "upProgress"></label> <br><br>
-					<button id="select">Select Image</button>
-				</div>
 			</div>
-			<div class="row" style="padding: 40px 5vw;">
-				<div class="col-12">
-					<p>Address:</p>
-					<textarea id="address" rows="4" style="width: 50vw;"></textarea>
-				</div>
-				<div class="col-12">
-					<p>Topic Text:</p>
-					<textarea id="topic" rows="4" style="width: 50vw;"></textarea>
-				</div>
-				<div class="col-12">
-					<p>Detail Text:</p>
-					<textarea id="detail" rows="4" style="width: 50vw;"></textarea>
+            <div class="row" style="padding: 0px 5vw;padding-top: 40px;">
+				<div class="col-12 col-lg-3">
+                    <p>introduce:</p>
+                    <textarea id="introduce" rows="4" style="width: 50vw;"></textarea></p>
 				</div>
 			</div>
 		</div>
 		<div class="container">
-			<button id="upload" class="btn btn-primary" style="margin-top: 30px;width: 100px;height: 50px;">Create</button>
+			<button onclick="uppro()" class="btn btn-primary" style="margin-top: 30px;width: 100px;height: 50px;">OK!</button>
 		</div>
-		
 	</div>
 
 	<div class="footer">
@@ -205,26 +220,25 @@
 	</div>
 	<div id="hidfoot">@Copy right KMITL</div>
 </body>
-	<!-- The core Firebase JS SDK is always required and must be listed first -->
-	<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-storage.js"></script>
-	<script>
-		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-		const firebaseConfig = {
-		apiKey: "AIzaSyC3Jv5CRjhZ0-hKDfY9FRU4EmIYWfvDaN0",
-		authDomain: "tauction-web.firebaseapp.com",
-		projectId: "tauction-web",
-		storageBucket: "tauction-web.appspot.com",
-		messagingSenderId: "770248665581",
-		appId: "1:770248665581:web:252160e779378e15289fe4",
-		measurementId: "G-EXR9WX4M5S"
-		};
-
-		firebase.initializeApp(firebaseConfig);
-		firebase.analytics();
-	</script>
-	<script src="java.js"></script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-storage.js"></script>
+<script>
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+    apiKey: "AIzaSyC3Jv5CRjhZ0-hKDfY9FRU4EmIYWfvDaN0",
+    authDomain: "tauction-web.firebaseapp.com",
+    projectId: "tauction-web",
+    storageBucket: "tauction-web.appspot.com",
+    messagingSenderId: "770248665581",
+    appId: "1:770248665581:web:252160e779378e15289fe4",
+    measurementId: "G-EXR9WX4M5S"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+<script src="java.js"></script>
 </html>

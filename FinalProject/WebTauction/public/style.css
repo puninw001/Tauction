@@ -47,7 +47,8 @@ body{
 	top: -10px;
 }
 .whitebut{
-	border-radius: 40%;
+	height: 30px;
+	border-radius: 10%;
 	border: 2px white solid;
 	color: #2089CF;
 	transition: 0.5s;
@@ -187,7 +188,7 @@ body{
 }
 .profile{
 	border-radius: 75%;
-	width: 400px;
+	width: 150px;
 	height: auto;
 }
 /*About*/
@@ -232,6 +233,32 @@ body{
   font-size: 36px;
   margin-left: 50px;
 }
+
+.avatar {
+	vertical-align: middle;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	vertical-align: top;
+}
+.user-detail {
+    display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+    .user-detail__username {
+        display: block;
+        float: left;
+        font-weight: 500;
+    }
+    .user-detail__role {
+
+        display: block;
+        font-style: normal;
+        line-height: 13px;
+        font-weight: 300;
+    }
 
 .openbtn {
   display: none;

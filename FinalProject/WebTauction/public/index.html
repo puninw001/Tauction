@@ -24,8 +24,16 @@
 						<a href="login.html">Log in</a>
 					</div>
 					<div id="insign">
-						<div class="row"><a href="profile.html" id="headeruser"></a></div>
-						<div class="row"><button onclick="sign()" class="whitebut">Log out</button></div>
+						<div class="user-detail right">
+							<div id="proicon" style="margin-right:15px;">
+								<a href="profile.html"><img class="avatar" src='img/person.png'></a>
+							</div>
+							<div style="display:inline-block;">
+								<a href="profile.html"><span class="user-detail__username" id="headeruser" href="profile.html">
+								</span></a>
+								<span class="user-detail__role"><button onclick="sign()" class="whitebut user-detail_role">Log out</button></span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -41,10 +49,16 @@
 		<a href="history.html" id="m2">History</a>
 		<a href="about.html" id="m3">About us</a>
 	</div>
+
 	<div id="sign" style="display: none;"></div>
 	<div id="add" style="display: none;"></div>
 	<div id="con" style="display: none;"></div>
 	<div id="hisor" style="display: none;"></div>
+	<div id="editpro" style="display: none;"></div>
+	<div id="upload" style="display: none;"></div>
+	<div id="select" style="display: none;"></div>
+	<div id="abtme" style="display: none;"></div>
+	<div id="ipf" style="display: none;"></div>
 
 	<div class="body01">
 		<div class="container">
@@ -93,7 +107,7 @@
 							<b><p>Technician</p></b>
 						</div>
 					</div>
-					<div id="sellc" style=" text-align: center;"></div>
+					<div id="techs" style=" text-align: center;"></div>
 				</div>
 			</div>
 		</div>

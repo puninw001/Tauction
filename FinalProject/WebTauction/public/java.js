@@ -2,13 +2,29 @@ window.onload = function(){
     initUser();
     update();
 	countorder();
+	countpro();
+	setUsa();
+	firebase.auth().onAuthStateChanged(function (user){
+		if (user) {
+			readProfile(user.uid);
+		}
+	})
+	update2();
 }
 
+let testor;
+let testorpro;
 let count = 0;
+let count2 = 0;
 let dataOrder;
 let keyOrder;
+let dataOrder2;
+let keyOrder2;
 let dataUser;
 let keyUser;
+let rate = "";
+let usernamed = "";
+
 function countorder(){
 	var ref = firebase.database().ref("test");
 	ref.on('value', (snapshot) =>{
@@ -23,15 +39,37 @@ function countorder(){
 	});
 }
 
+function countpro(){
+	var ref = firebase.database().ref("userinfo");
+	ref.on('value', (snapshot) =>{
+		const data = snapshot.val();
+		let key = Object.keys(data);
+		dataOrder2 = data;
+		keyOrder2 = key;
+		for (let i in key){
+			count2 += 1;
+		}
+		count2 += 1;
+	});
+}
+
 var ref = firebase.database().ref("test");
 ref.on('value', (snapshot) =>{
     const data = snapshot.val();
-    console.log(data);
-    console.log(Object.keys(data));
+    // console.log(data);
+    // console.log(Object.keys(data));
     }
 );
 
-console.log("test")
+function setUsa(){
+	var ref = firebase.database().ref("userinfo");
+	ref.on('value', (snapshot) =>{
+		const data = snapshot.val();
+		let key = Object.keys(data);
+		dataUser = data;
+		keyUser = key;
+	});
+}
 
 function register(){
 	var email = document.getElementById("email").value;
@@ -92,6 +130,7 @@ function initUser(){
 	firebase.auth().onAuthStateChanged(function (user) {
 		//User Log in
 		if (user) {
+			usernamed = user;
 			console.log(window.location.href);
 			document.getElementById("sign").textContent = "Sign Out";
 			document.getElementById("nosign").style.display = "none";
@@ -112,7 +151,51 @@ function initUser(){
 			}
 			document.getElementById("hidsign").innerHTML = '<a href="register.html">Register</a><a href="login.html">Log in</a>';
 		}
-	})
+	});
+}
+
+function readHistory(){
+	let chk;
+	let chkDate;
+	let chkBy;
+	let chkHis = 1;
+	let his = "";
+	firebase.auth().onAuthStateChanged(function (user){
+    	if(user){
+    		for(let i in keyOrder){
+    			chk = keyOrder[i];
+    			if(user.email == dataOrder[chk].fixBy || user.email == dataOrder[chk].email){
+    				if(dataOrder[chk].doneDate == "")
+    					chkDate = "Order isn't progressed.";
+    				else
+    					chkDate = dataOrder[chk].doneDate;
+    				his += `<div class="row" style="text-align:center;cursor: pointer;" onclick='openpost(${dataOrder[chk].noor})'>
+								<div class="col-2">
+									<p>${dataOrder[chk].type}</p>
+								</div>
+								<div class="col-2">
+									<p>${dataOrder[chk].province}</p>
+								</div>
+								<div class="col-2">
+									<p>${dataOrder[chk].date_create}</p>
+								</div>
+								<div class="col-3">
+									<p>${dataOrder[chk].status}</p>
+								</div>
+								<div class="col-3">
+									<p>${dataOrder[chk].email}</p>
+								</div>
+							</div><hr>`;
+						chkHis = 0;
+    			}
+    		}
+    		if (chkHis) {his = `<h1 style="text-align:center;">No order progress.</h1>`;}
+    		document.getElementById("hisor").innerHTML = his;
+    	}
+    	else{
+    		document.getElementById("hisor").innerHTML = `<h1 style="text-align:center;">Please Sign in</h1>`;
+    	}
+    });
 }
 
 function resetpass(){
@@ -205,6 +288,39 @@ function update(){
 	});
 }
 
+function update2(){
+	var ref = firebase.database().ref("userinfo");
+	ref.on('value', (snapshot) =>{
+		const data = snapshot.val();
+		let key = Object.keys(data);
+		let chk;
+        let tech = "";
+		for (let i in key) {
+			chk = key[i];
+            if (data[chk].อุปกรณ์ != ""){
+                tech += `<div class="row" style="border: 1px black solid;cursor: pointer;" onclick='openpro(${data[chk].noor})'>
+                <div class="col-2">
+                    <p>${data[chk].Surname}</p>
+                </div>
+                <div class="col-2">
+                    <p>${data[chk].Lastname}</p>
+                </div>
+                <div class="col-3">
+                    <p>${data[chk].จังหวัด}</p>
+                </div>
+                <div class="col-2">
+                    <p>${rate}</p>
+                </div>
+				<div class="col-3">
+                    <p>${data[chk].email}</p>
+                </div>
+            </div>`;
+            }
+		}
+        document.getElementById("techs").innerHTML = tech;
+	});
+}
+
 var ImgName, ImgUrl;
 var files = [];
 var reader = new FileReader();
@@ -232,8 +348,19 @@ setInterval(function() {
 		alert("Create Post Success!");
 		isup = 0;
 		window.location.href = "index.html";
+	} else if (isup == 2) {
+		alert("Edit Profile Complete!");
+		isup = 0;
+		window.location.href = "profile.html"
+	} else if (isup == 3) {
+		alert("upgrade profile success!");
+		isup = 0;
+		window.location.href = "profile.html"
 	}
-}, 10000);
+	update();
+	update2();
+	readHistory();
+}, 5000);
 
 document.getElementById('upload').onclick = function (){
 	var type = document.getElementById("type").value;
@@ -277,7 +404,8 @@ document.getElementById('upload').onclick = function (){
 					fixBy: "none",
 					doneDate: "",
 					status: "Technician Finding",
-					ImgLink: ImgUrl
+					ImgLink: ImgUrl,
+					technician: [0],
 					});
 			});
 		}
@@ -298,6 +426,7 @@ function openpost(num){
 		for (let i in key){
 			chk = key[i];
 			if(data[chk].noor == num){
+				testor = chk;
 				inn += `<div class="container">
 							<div class="row" style="background-color: #2089CF;">
 								<div class="col-12 col-lg-10" style="text-align: center;color: white; margin-bottom: 20px;padding-top: 10px;">
@@ -332,14 +461,36 @@ function openpost(num){
 									<div class="row">
 										<div class="col-12" style="border: 1px black solid; margin-top:10px;">
 											<h3> Status: ${data[chk].status}</h1>
-											<img class="center" style="text-align:center;" src="">
 											<p style="text-align:center;">(${data[chk].fixBy})</p>
 										</div>
-									</div>`
-				inn += `</div>
+									</div>
+									<div class="row">
+										<div class="col-12" style="border: 1px black solid; margin-top:10px;">
+										<h3>Technicians Offer</h3>`
+										if( data[chk].email == usernamed.email){
+											for (i in data[chk].technician){
+												if(i != 0){
+													inn += `<p>${data[chk].technician[i]}</p><button onclick="accept(${i})">Accept</button>`
+												}
+											}
+										}else{
+											for (i in data[chk].technician){
+												if(i != 0){
+													inn += `<p>${data[chk].technician[i]}</p>`
+												}
+											}
+										}
+							inn +=		`</div>
+									</div>
+								</div>
 							</div>
-						</div>
-						<button class="btn btn-primary mid" onclick="showSure(${data[chk].noor})" style="margin-top:30px;margin-bottom:30px;">DEAL!</button>`;
+						</div>`
+						if(data[chk].email != usernamed.email && data[chk].status == "Technician Finding"){
+							inn +=	`<button class="btn btn-primary mid" onclick="offer()" style="margin-top:30px;margin-bottom:30px;">Send Offer</button>`;
+						}
+				if(data[chk].email == usernamed.email){
+					inn += `<button class="btn btn-primary mid" onclick="deleteorder()" style="margin-top:30px;margin-bottom:30px; color:red;">Delete Order!</button>`;
+				}
 			}
 		}
 		document.getElementById("hidorder").innerHTML = inn;
@@ -356,4 +507,319 @@ function clorder(){
 	document.getElementById("hidback").style.opacity = "0";
 	document.getElementById("hidback").style.zIndex = "-11";
 	document.getElementById("hidsure").style.display = "none";
+}
+
+function readProfile(idd){
+	var ref = firebase.database().ref("userinfo");
+	ref.on('value', (snapshot) =>{
+		const data = snapshot.val();
+		let key = Object.keys(data);
+		let chk;
+		let profileimg ='';
+		let profileicon ="";
+		let add = "";
+		let con = "";
+		let abt = "";
+		for(let i in key){
+			chk = key[i];
+			if (data[chk].rating1 == 0 && data[chk].rating2 == 0){
+				rate = "no rating";
+			} else {
+				rate = data[chk].rating1/data[chk].rating2;
+			}
+			if(data[chk].uid == idd){
+				testorpro = key[i];
+				profileicon += `<div style="margin-right:15px;">
+							<a href="profile.html"><img src="${data[chk].proimg}" class="avatar"></a>
+							</div>`;
+				profileimg += `<div class="mid">
+							<img src="${data[chk].proimg}" class="mid profile">
+						</div>`;
+				add += `<div class="mid">
+							<img src="img/address.png" class="logo1">
+							<p>${data[chk].address}</p>
+						</div>`;
+				con += `<div class="mid">
+							<img src="img/call.png" class="logo1">
+							<p>${data[chk].phone}</p>
+						</div><div class="mid">
+							<img src="img/fb.png" class="logo1">
+							<p>${data[chk].fb}</p>
+						</div><div class="mid">
+							<img src="img/line.png" class="logo1">
+							<p>${data[chk].line}</p>
+						</div><div class="mid">
+							<img src="img/email.png" class="logo1">
+							<p>${data[chk].email}</p>
+						</div>`;
+				document.getElementById("ipf").innerHTML = profileimg;
+				document.getElementById("add").innerHTML = add;
+				document.getElementById("con").innerHTML = con;
+				document.getElementById("proicon").innerHTML = profileicon;
+			}
+			if(data[chk].อุปกรณ์ != "" && data[chk].uid == idd){
+				abt += `<div>
+							<p>ชื่อ :${data[chk].Surname} นามสกุล :${data[chk].Lastname}</p>
+						</div>
+						<div>
+							<p>อุปกรณ์ที่เชี่ยวชาญ :${data[chk].อุปกรณ์}</p>
+						</div>
+						<div>
+							<p>จังหวัดที่รับงาน : ${data[chk].จังหวัด}</p>
+						</div>
+						<div>
+							<p>เกี่ยวกับตัวฉัน : ${data[chk].introduce}</p>
+						</div>
+						<div>
+							<p>Rating : ${rate}</p>
+						</div>`;
+				document.getElementById("abtme").innerHTML = abt;
+			}
+		}
+	});
+}
+
+document.getElementById('editpro').onclick = function (){
+	var phone = document.getElementById("phone").value;
+	var fb = document.getElementById("fb").value;
+	var line = document.getElementById("line").value;
+	var proimg;
+	var address = document.getElementById("address").value;
+	let chk;
+	let newbie = 1;
+	firebase.auth().onAuthStateChanged(function (user){
+    	if(user){
+    		const firebaseRef = firebase.database().ref("userinfo");
+    		for(i in keyUser){
+    			chk = keyUser[i];
+    			if(user.email == dataUser[chk].email){
+    				newbie = 0;
+    				break;
+    			}
+			}
+			if(newbie){
+				var uploadTask = firebase.storage().ref('Profile/'+user.email+".png").put(files[0]);
+
+				uploadTask.on('state_changed', function(snapshot){
+					var progress = (snapshot.bytesTranferred / snapshot.totalBytes) * 100;
+					document.getElementById('upProgress').innerHTML = 'Upload'+progress+'%';
+				})
+
+				uploadTask.snapshot.ref.getDownloadURL().then(function(url){
+					ImgUrl = url;
+					isup = 2;
+					firebaseRef.push({
+						phone: phone,
+						fb: fb,
+						line: line,
+						proimg: ImgUrl,
+						address: address,
+						uid: user.uid,
+						email: user.email,
+						อุปกรณ์: "",
+						จังหวัด: "",
+						introduce: "",
+						Surname: "",
+						Lastname: "",
+						noor: count2,
+						rating1: 0,
+						rating2: 0,
+					});
+				});
+			}
+			else{
+				var uploadTask = firebase.storage().ref('Profile/'+user.email+".png").put(files[0]);
+
+				uploadTask.on('state_changed', function(snapshot){
+					var progress = (snapshot.bytesTranferred / snapshot.totalBytes) * 100;
+					document.getElementById('upProgress').innerHTML = 'Upload'+progress+'%';
+				})
+				uploadTask.snapshot.ref.getDownloadURL().then(function(url){
+					ImgUrl = url;
+					isup = 2;
+					firebaseRef.child(`${chk}/phone`).set(phone);
+					firebaseRef.child(`${chk}/fb`).set(fb);
+					firebaseRef.child(`${chk}/line`).set(line);
+					firebaseRef.child(`${chk}/proimg`).set(ImgUrl);
+					firebaseRef.child(`${chk}/address`).set(address);
+				});
+			}
+		}
+		else{
+			alert("Please Sign in");
+			window.location.href = "login.html";
+		}
+    });
+}
+
+function upgrade(){
+	let newbie = 1;
+	let chk;
+	firebase.auth().onAuthStateChanged(function (user){
+    	if(user){
+    		const firebaseRef = firebase.database().ref("userinfo");
+    		for(i in keyUser){
+    			chk = keyUser[i];
+    			if(user.email == dataUser[chk].email){
+    				newbie = 0;
+    				break;
+    			}
+			}
+		}
+		if(newbie){
+			alert ("กรุณา edit profile ของคุณ");
+		}
+		else {
+			window.location.href = "uppro.html";
+		}
+	});
+}
+
+function uppro(){
+	var surname = document.getElementById("sname").value;
+	var lastname = document.getElementById("lname").value;
+	var type1 = document.getElementById("type1").value;
+	var type2 = document.getElementById("type2").value;
+	var type3 = document.getElementById("type3").value;
+	var province = document.getElementById("province1").value;
+	var introduce = document.getElementById("introduce").value;
+	let chk;
+	firebase.auth().onAuthStateChanged(function (user){
+		for(i in keyUser){
+			chk = keyUser[i];
+			if(user.email == dataUser[chk].email){
+				break;
+			}
+		}
+		const firebaseRef = firebase.database().ref("userinfo");
+		firebaseRef.child(`${chk}/Surname`).set(surname);
+		firebaseRef.child(`${chk}/Lastname`).set(lastname);
+		firebaseRef.child(`${chk}/อุปกรณ์`).set(type1+", "+type2+", "+type3);
+		firebaseRef.child(`${chk}/จังหวัด`).set(province);
+		firebaseRef.child(`${chk}/introduce`).set(introduce);
+		isup = 3;
+	});
+}
+
+function openpro(num){
+	var ref = firebase.database().ref("userinfo");
+	ref.on('value', (snapshot) =>{
+		const data = snapshot.val();
+		let key = Object.keys(data);
+		let chk;
+		let inn = "";
+		for (let i in key){
+			chk = key[i];
+			if(data[chk].noor == num){
+				inn += `<div class="container">
+							<div class="row" style="background-color: #2089CF;">
+								<div class="col-12 col-lg-10" style="text-align: center;color: white; margin-bottom: 20px;padding-top: 10px;">
+									<h2 style="text-align:left; padding-bottom:20px; padding-left:60px;">Technician Profile</h2></a>
+								</div>
+								<div class="col-12 col-lg-2" style="padding-top:10px;">
+									<button onclick="clorder()"><img src="img/close.png" style="height:70px; width:90px;"></button>
+								</div>
+							</div>
+						</div>
+						<div class="mid" style="padding-top:10px; padding-bottom:10px;">
+							<img src="${data[chk].proimg}" class="mid profile">
+						</div>
+						<div> <h4 style="text-align: center;">${data[chk].Surname} ${data[chk].Lastname}</h4>
+						<h4 style="text-align: center;">rating : ${rate}</h4></div>
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-5 col-12" style="text-align: center;border: 1px black solid;">
+								<h3 style="background-color: #2089CF;color: white;padding-top: 20px;padding-bottom: 30px;border: 1px black solid;">About Me</h3>
+								<div>
+									<p>อุปกรณ์ที่เชี่ยวชาญ :${data[chk].อุปกรณ์}</p>
+								</div>
+								<div>
+									<p>จังหวัดที่รับงาน : ${data[chk].จังหวัด}</p>
+								</div>
+								<div>
+									<p>เกี่ยวกับตัวฉัน : ${data[chk].introduce}</p>
+								</div>
+							</div>
+							<div class="col-lg-4 col-12" style="text-align: center;border: 1px black solid;">
+								<h3 style="background-color: #2089CF;color: white;padding-top: 20px;padding-bottom: 30px;border: 1px black solid;">Address</h3>
+								<div class="mid">
+									<img src="img/address.png" class="logo1">
+									<p>${data[chk].address}</p>
+								</div>
+							</div>
+							<div class="col-lg-3 col-12" style="text-align: center;border: 1px black solid;">
+								<h3 style="background-color: #2089CF;color: white;padding-top: 20px;padding-bottom: 30px;border: 1px black solid;">Contact</h3>
+								<div class="mid">
+									<img src="img/call.png" class="logo1">
+									<p>${data[chk].phone}</p>
+								</div><div class="mid">
+									<img src="img/fb.png" class="logo1">
+									<p>${data[chk].fb}</p>
+								</div><div class="mid">
+									<img src="img/line.png" class="logo1">
+									<p>${data[chk].line}</p>
+								</div><div class="mid">
+									<img src="img/email.png" class="logo1">
+									<p>${data[chk].email}</p>
+								</div>
+							</div>
+							</div>
+						</div>`;
+			}
+		}
+		document.getElementById("hidorder").innerHTML = inn;
+		document.getElementById("hidorder").style.opacity = "1";
+		document.getElementById("hidorder").style.zIndex = "100";
+		document.getElementById("hidback").style.opacity = "0.7";
+		document.getElementById("hidback").style.zIndex = "99";
+	});
+}
+
+function offer(){
+	const firebaseRef = firebase.database().ref("test");
+	var poro = dataOrder[testor].technician;
+	var checkdd = 1;
+	var newbie = 1;
+	for (i in poro){
+		if (poro[i] == usernamed.email){
+			checkdd = 0;
+			break;
+		}
+	}
+	for(i in keyUser){
+		chk = keyUser[i];
+		if(usernamed.email == dataUser[chk].email){
+			newbie = 0;
+			break;
+		}
+	}
+	if (newbie){
+		alert("Only Technician can offer !");
+	}else{
+		if(dataUser[chk].อุปกรณ์ != ""){
+			if (checkdd){
+				poro.push(usernamed.email);
+				firebaseRef.child(`${testor}/technician`).set(poro);
+				alert("Sending offer Successful!");
+			}else {
+				alert("You already sending Offer!");
+			}
+		}else{
+			alert("Only Technician can offer !");
+		}
+	}
+}
+
+function accept(namenum){
+	const firebaseRef = firebase.database().ref("test");
+	var accwho = dataOrder[testor].technician[namenum];
+	firebaseRef.child(`${testor}/fixBy`).set(accwho);
+	firebaseRef.child(`${testor}/status`).set("On Working");
+	firebaseRef.child(`${testor}/technician`).set([0]);
+}
+
+function deleteorder(){
+	const firebaseRef = firebase.database().ref("test");
+	firebaseRef.child(`${testor}/status`).set("Deleted");
+	firebaseRef.child(`${testor}/isHave`).set(false);
 }

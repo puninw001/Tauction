@@ -4,7 +4,7 @@
 	<title>TAUCTION</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 	<link rel="stylesheet" href="style.css">
-	<link rel="shortcut icon" href="img/mini_logo.png" />
+	<link rel="shortcut icon" href="img/logo.png" />
 </head>
 <body>
 	<div class="header">
@@ -49,42 +49,46 @@
 		<a href="history.html" id="m2">History</a>
 		<a href="about.html" id="m3">About us</a>
 	</div>
+	
 	<div id="sign" style="display: none;"></div>
 	<div id="troub" style="display: none;"></div>
 	<div id="techs" style="display: none;"></div>
+	<div id="add" style="display: none;"></div>
+	<div id="con" style="display: none;"></div>
 	<div id="hisor" style="display: none;"></div>
 	<div id="upload" style="display: none;"></div>
-	<div id="editpro" style="display: none;"></div>
-	<div id="select" style="display: none;"></div>
+	<div id="abtme" style="display: none;"></div>
+	<div id="ipf" style="display: none;"></div>
 
 	<div class="body01">
+		<div class="container" style="border: 1px black solid;padding: 0;">
+			<div style="background-color: #2089CF;padding: 10px 0px;">
+				<h2 style="text-align: center;color: white;">Edit Profile</h2>
+			</div>
+			<div class="row" style="padding: 0px 5vw;padding-top: 40px;">
+				<div class="col-12 col-lg-3">
+					<p>Phone: <input type="text" id="phone" placeholder="0xx - xxx - xxxx" style="width: 200px;"></p>
+				</div>
+				<div class="col-12 col-lg-3">
+					<p>Facebook: <input type="text" id="fb" placeholder="Enter the FB" style="width: 200px;"></p>
+				</div>
+				<div class="col-12 col-lg-3">
+					<p>Line: <input type="text" id="line" placeholder="Enter the Line" style="width: 200px;"></p>
+				</div>
+				<div class="col-12 col-lg-3">
+					<img id="myimg" class="orderimg"/> <label id = "upProgress"></label> <br><br>
+					<button id="select">Select Image</button>
+				</div>
+			</div>
+			<div class="row" style="padding: 40px 5vw;">
+				<div class="col-12">
+					<p>Address:</p>
+					<textarea id="address" rows="4" style="width: 50vw;"></textarea>
+				</div>
+			</div>
+		</div>
 		<div class="container">
-			<div class="row">
-				<div class="col-6">
-				</div>
-				<div class="col-6">
-					<a href="editpro.html" style="float: right;"><button class="btn btn-secondary">Edit</button></a>
-				</div>
-			</div>
-			<h2 style="text-align: center;">Profile</h2>
-			<div id="ipf">
-				<img src="img/person.png" class="mid profile">
-			</div>
-			<h4 style="text-align: center;" id="headeruser">User Email</h4>
-			<div class="row" style="padding: 10px 10px;">
-                <div class="col-lg-5 col-12" style="text-align: center;border: 1px black solid;">
-					<h3 style="background-color: #2089CF;color: white;padding-top: 20px;padding-bottom: 30px;border: 1px black solid;">About Me</h3>
-					<div id="abtme"></div><button onclick="upgrade()" class="btn btn-secondary">Upgrade To Technicians</button>
-				</div>
-				<div class="col-lg-4 col-12" style="text-align: center;border: 1px black solid;">
-					<h3 style="background-color: #2089CF;color: white;padding-top: 20px;padding-bottom: 30px;border: 1px black solid;">Address</h3>
-					<div id="add"></div>
-				</div>
-				<div class="col-lg-3 col-12" style="text-align: center;border: 1px black solid;">
-					<h3 style="background-color: #2089CF;color: white;padding-top: 20px;padding-bottom: 30px;border: 1px black solid;">Contact</h3>
-					<div id="con"></div>
-				</div>
-			</div>
+			<button id="editpro" class="btn btn-primary" style="margin-top: 30px;width: 100px;height: 50px;">OK!</button>
 		</div>
 	</div>
 
@@ -109,24 +113,25 @@
 	</div>
 	<div id="hidfoot">@Copy right KMITL</div>
 </body>
-    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-storage.js"></script>
-    <script>
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-        apiKey: "AIzaSyC3Jv5CRjhZ0-hKDfY9FRU4EmIYWfvDaN0",
-        authDomain: "tauction-web.firebaseapp.com",
-        projectId: "tauction-web",
-        storageBucket: "tauction-web.appspot.com",
-        messagingSenderId: "770248665581",
-        appId: "1:770248665581:web:252160e779378e15289fe4",
-        measurementId: "G-EXR9WX4M5S",
-        };
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
-	<script src="java.js"></script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-storage.js"></script>
+<script>
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+    apiKey: "AIzaSyC3Jv5CRjhZ0-hKDfY9FRU4EmIYWfvDaN0",
+    authDomain: "tauction-web.firebaseapp.com",
+    projectId: "tauction-web",
+    storageBucket: "tauction-web.appspot.com",
+    messagingSenderId: "770248665581",
+    appId: "1:770248665581:web:252160e779378e15289fe4",
+    measurementId: "G-EXR9WX4M5S"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+<script src="java.js"></script>
 </html>
